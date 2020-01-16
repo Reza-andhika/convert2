@@ -1,0 +1,344 @@
+<html>
+    <head>
+        <title>Client</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}"/>
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{/bootstrap/dist/css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+        <!-- JQuery -->
+        <!--<script type="text/javascript" th:src="@{/jquery/js/jquery-1.8.3.min.js}"></script>-->
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
+        <!--Data tables-->
+        <link th:href="@{/DataTables/datatables.min.css}" type="text/css" rel="stylesheet">
+        <link th:href="@{/DataTables/Responsive-2.2.3/css/responsive.dataTables.min.css}" type="text/css" rel="stylesheet">
+        <script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/popper.min-1.14.4}"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/site/docs/4.3/assets/js/vendor/jquery-slim.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+        <script type="text/javascript" th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/popper.min-1.14.7.js}" ></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" ></script>
+        <link rel="stylesheet" th:href="@{/js/bootstrap.min.css}">
+
+        <style type="text/css"> 
+            body {
+                overflow-x: hidden;
+            }
+
+            #sidebar-wrapper {
+                min-height: 100vh;
+                margin-left: -15rem;
+                -webkit-transition: margin .25s ease-out;
+                -moz-transition: margin .25s ease-out;
+                -o-transition: margin .25s ease-out;
+                transition: margin .25s ease-out;
+            }
+
+            #sidebar-wrapper .sidebar-heading {
+                padding: 0.875rem 1.25rem;
+                font-size: 1.2rem;
+            }
+
+            #sidebar-wrapper .list-group {
+                width: 15rem;
+            }
+
+            #page-content-wrapper {
+                min-width: 100vw;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            @media (min-width: 768px) {
+                #sidebar-wrapper {
+                    margin-left: 0;
+                }
+
+                #page-content-wrapper {
+                    min-width: 0;
+                    width: 100%;
+                }
+
+                #wrapper.toggled #sidebar-wrapper {
+                    margin-left: -15rem;
+                }
+            }
+
+        </style>
+    </head>
+
+    <body class="fixed-sn" th:attr="onload='alertSave(\''+${status}+'\')'">
+
+        <!--modal-->
+        <div id="myModal" class="modal fade" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4  class="modal-title">Add Client</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--Buka Form-->
+                        <form action="#" th:action="@{/clientSave}" method="GET">
+                            <div class="form-row">
+
+                                <div class="form-group col-md-9" hidden>
+                                    <label for="inputNama">ID</label>
+                                    <input type="text" class="form-control"  id="id" name="id" placeholder="" value="">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="inputInstansi">Corporate</label>
+                                    <select class="form-control" required  id="type" name="type"/>
+                                    <option value="">-Select-</option>
+                                    <option th:each="t : ${types}" th:value="${t.id}" th:text="${t.name}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-9">
+                                    <label for="inputNama">Name</label>
+                                    <input type="text" class="form-control" required  id="name" name="name" placeholder="" value="">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="inputDelimiter">Delimiter</label>
+                                    <select class="form-control" required  id="symbol" name="symbol"/>
+                                    <option value="">-Select-</option>
+                                    <option th:each="p : ${params}" th:value="${p.id}" th:text="${p.symbol}"></option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group col-md-9">
+                                    <label for="inputNama">incoming</label>
+                                    <input type="text" class="form-control" required  id="incomingPath" name="incomingPath" placeholder="E:\example\file" value="">
+                                </div>
+
+                                <div class="form-group col-md-9">
+                                    <label for="inputNama">outgoing</label>
+                                    <input type="text" class="form-control" required  id="outgoingPath" name="outgoingPath" placeholder="E:\example\file" value="">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="inputDelimiter">Result Delimiter</label>
+                                    <select class="form-control" required  id="symbol2" name="symbol2"/>
+                                    <option value="">-Select-</option>
+                                    <option th:each="p : ${params}" th:value="${p.symbol}" th:text="${p.symbol}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-9">
+                                    <label for="Extension">Extension</label>
+                                    <select class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width:350px; height:35px;" />
+                                    <option value="">-Select-</option>
+                                    <option th:each="e : ${ext}" th:value="${e.id}" th:text="${e.extension}"></option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </form>
+                        <!--Close Form Input-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end of moddal-->
+
+        <div class="d-flex  " id="wrapper">
+            <!-- Sidebar -->
+            <div class="bg-light border-right" id="sidebar-wrapper">
+                <div class="sidebar-heading"><h3 class="font-weight-bold">Converter File</h3></div>
+                <div class="list-group list-group-flush">
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action bg-light" style="font-size: 20px"><i class="fas fa-file-export"></i> Convert</a>
+
+                    <a th:href="@{/clientPartner}" class="list-group-item list-group-item-action bg-light" style="font-size: 20px"><i class="fas fa-plus-square"></i> Add Client</a>
+                    <ul>
+                        <li>
+                            <a th:href="@{/parameter}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="fa fa-tag"></i> Delimiter</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/extension}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="far fa-file-alt"></i> Extension</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/type}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="fa fa-users"></i> Instantion Type</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /#sidebar-wrapper -->
+
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <nav class="navbar navbar-expand-lg  bg-dark border-bottom  navbar-dark bg-dark sticky-top">
+                    <button class="btn btn-light" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                </nav>
+                <br>
+                <br>
+                <!--table-->
+                <div class="container">
+                    <div class="card ">
+                        <div class="card-body"> 
+                            <br>
+                            <div>
+                                <button type="button" style="margin-right: 0px;" onclick="getData('', '', '', '', '', '', '', '')" class="btn btn-primary"  data-toggle="modal" data-target="#myModal"><i class="fas fa-plus"></i> add Client
+                                </button>
+                            </div>
+                            <br>
+                            <br>
+
+                            <!-- fill content -->
+                            <table border="1" id="myTable" class="table table-hover table-sm table-bordered" style="width:100%">
+                                <thead class="thead-dark">
+                                    <tr class="text-center">
+                                        <th>NO</th>
+                                        <th hidden>ID</th>
+                                        <th>Corporate</th>
+                                        <th>Name</th>
+                                        <th>Delimiter</th>
+                                        <th>Incoming</th>
+                                        <th>Outgoing</th>
+                                        <th>Result Delimiter</th>
+                                        <th>Extension</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="count, as : ${clients}" class="text-center">    
+                                        <td th:text="${as.index+1}"></td>
+                                        <td th:text="${count.id}" hidden></td>
+                                        <td th:text="${count.type.name}"></td>
+                                        <td th:text="${count.name}"></td>
+                                        <td th:text="${count.parameter.symbol}"></td>
+                                        <td th:text="${count.incomingPath}"></td>
+                                        <td th:text="${count.outgoingPath}"></td>
+                                        <td th:text="${count.parameter2}"></td>
+                                        <!--<td th:text="$[{count.extensions.name}]"></td>-->
+
+                                        <td><span data-toggle="tooltip" data-placement="left" title="Edit">
+                                                <button th:id="${count.id}" th:type="${count.type.id}" th:name="${count.name}"
+                                                        th:symbol="${count.parameter.id}" th:incomingPath="${count.incomingPath}" th:outgoingPath="${count.outgoingPath}" th:symbol2="${count.parameter2}"
+                                                        onclick="getData(this.getAttribute('id'), this.getAttribute('type'), this.getAttribute('name')
+                                                                            , this.getAttribute('symbol'), this.getAttribute('incomingPath'), this.getAttribute('outgoingPath')
+                                                                            , this.getAttribute('symbol2'))"
+                                                        type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" ><i class="fas fa-edit"></i></button></span>
+                                            <a type="button" class="btn btn-danger" th:href="@{/clientDelete(id=${count.id})}"><i class="fas fa-trash"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- end of tabble client-->
+                    <div class="container">
+                        <br>
+                        <br>
+                        <div class="card ">
+                            <div class="card-body"> 
+                                <br>
+                                <br>
+
+                                <!-- fill content -->
+                                <table border="1" id="myTable" class="table table-hover table-sm table-bordered" style="width:100%">
+                                    <thead class="thead-dark">
+                                        <tr class="text-center">
+                                            <th>N</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="as : ${extensions}" class="text-center">    
+                                            <td th:text="${as.clientId}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end table-->
+            </div>
+            <!-- Footer -->
+
+            <script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+            <script th:src="@{/bootstrap/dist/css/bootstrap.min.css}" ></script>
+            <script th:src="@{/js/popper.min-1.14.7.js}" ></script>
+            <script th:src="@{/js/bootstrap.min.js}" ></script><!-- Menu Toggle Script -->
+            <!-- Menu Toggle Script -->
+
+            <script>
+                        $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                        $("#wrapper").toggleClass("toggled");
+                });</script>
+
+            <script>
+                        $(document).ready(function () {
+                $('#myTable').DataTable();
+                });
+                        $(document).ready(function() {
+                $('.js-example-basic-multiple').select2();
+                });</script>
+
+
+            <script type="text/javascript">
+                        function getData(id, type, name, symbol, incomingPath, outgoingPath, symbol2) {
+                        if (id.length > 0) {
+                        document.getElementById("id").readOnly = true;
+                                document.getElementById("type").readOnly = true;
+                                document.getElementById("name").readOnly = true;
+                        } else {
+                        document.getElementById("id").readOnly = false;
+                                document.getElementById("type").readOnly = false;
+                                document.getElementById("name").readOnly = false;
+                        }
+                        document.getElementById("id").value = id;
+                                document.getElementById("type").value = type;
+                                document.getElementById("name").value = name;
+                                document.getElementById("symbol").value = symbol;
+                                document.getElementById("incomingPath").value = incomingPath;
+                                document.getElementById("outgoingPath").value = outgoingPath;
+                                document.getElementById("symbol2").value = symbol2;
+                        }
+            </script>
+
+            <script th:inline="javascript">
+                var show = [[${status
+                }
+                ]];
+                        if (show == 'file saved successfully') {
+                swal("Good job!", show, "success");
+                } else if (show == 'file failed to save') {
+                swal("Oops!", show, "error");
+                }
+            </script>
+            <script th:inline="javascript">
+                var show = [[${status
+                }
+                ]];
+                        if (show == 'path have been used') {
+                swal("Info", show, "info");</script>
+
+            <script th:inline="javascript">
+                        var show = [[${status
+                        }
+                        ]];
+                        if (show == 'file successfully deleted') {
+                swal("Good job!", show, "success");
+                } else if (show == 'file failed to delete') {
+                swal("Oops!", show, "error");
+                }
+
+            </script>
+    </body>
+
+</html>
+

@@ -1,0 +1,218 @@
+<html>
+    <head>
+        <title>Extension</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}"/>
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{/bootstrap/dist/css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+        <!-- JQuery -->
+        <!--<script type="text/javascript" th:src="@{/jquery/js/jquery-1.8.3.min.js}"></script>-->
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
+        <!--Data tables-->
+        <link th:href="@{/DataTables/datatables.min.css}" type="text/css" rel="stylesheet">
+        <link th:href="@{/DataTables/Responsive-2.2.3/css/responsive.dataTables.min.css}" type="text/css" rel="stylesheet">
+        <script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/popper.min-1.14.4}"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/site/docs/4.3/assets/js/vendor/jquery-slim.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+        <script type="text/javascript" th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/popper.min-1.14.7.js}" ></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" ></script>
+        <link rel="stylesheet" th:href="@{/js/bootstrap.min.css}">
+        <style type="text/css"> 
+            body {
+                overflow-x: hidden;
+            }
+
+            #sidebar-wrapper {
+                min-height: 100vh;
+                margin-left: -15rem;
+                -webkit-transition: margin .25s ease-out;
+                -moz-transition: margin .25s ease-out;
+                -o-transition: margin .25s ease-out;
+                transition: margin .25s ease-out;
+            }
+
+            #sidebar-wrapper .sidebar-heading {
+                padding: 0.875rem 1.25rem;
+                font-size: 1.2rem;
+            }
+
+            #sidebar-wrapper .list-group {
+                width: 15rem;
+            }
+
+            #page-content-wrapper {
+                min-width: 100vw;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            @media (min-width: 768px) {
+                #sidebar-wrapper {
+                    margin-left: 0;
+                }
+
+                #page-content-wrapper {
+                    min-width: 0;
+                    width: 100%;
+                }
+
+                #wrapper.toggled #sidebar-wrapper {
+                    margin-left: -15rem;
+                }
+            }
+
+        </style>
+    </head>
+
+    <body class="fixed-sn" th:attr="onload='alertSave(\''+${status}+'\')'">
+        <div id="myModal" class="modal fade" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4  class="modal-title">Add Extension</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--Buka Form-->
+                        <form th:action="@{/extenSave}" method="POST">
+                            <div class="form-row">
+
+                                <div class="form-group ">
+                                    <label for="inputExtension">Extension</label>
+                                    <input type="text" class="form-control" requiredid="extensi" name="extensi" placeholder="" value="">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </form>
+                        <!--Close Form Input-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex  " id="wrapper">
+            <!-- Sidebar -->
+            <div class="bg-light border-right" id="sidebar-wrapper">
+                <div class="sidebar-heading"><h3 class="font-weight-bold">Converter File</h3></div>
+                <div class="list-group list-group-flush">
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action bg-light" style="font-size: 20px"><i class="fas fa-file-export"></i> Convert</a>
+
+                    <a th:href="@{/clientPartner}" class="list-group-item list-group-item-action bg-light" style="font-size: 20px"><i class="fas fa-plus-square"></i> Add Client</a>
+                    <ul>
+                        <li>
+                            <a th:href="@{/parameter}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="fa fa-tag"></i> Delimiter</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/extension}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="far fa-file-alt"></i> Extension</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/type}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="fa fa-users"></i> Instantion Type</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /#sidebar-wrapper -->
+
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <nav class="navbar navbar-expand-lg  bg-dark border-bottom  navbar-dark bg-dark sticky-top">
+                    <!--button trigger-->
+                    <button class="btn btn-light" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                </nav>
+                <br>
+                <br>
+                <div class="container">
+                    <div class="card ">
+                        <div class="card-body">                          
+                            <br>
+                            <!-- fill content -->
+
+                            <div>
+                                <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#myModal"><i class="fas fa-plus"></i> add Parameter
+                                </button>
+                            </div>
+
+                            <br>
+                            <table border="1"  class="table table-hover table-sm table-bordered" style="width:100%">
+                                <thead class="thead-dark">
+                                    <tr class="text-center">
+                                        <!--<th>ID</th>-->
+                                        <th>extension</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="as : ${extensions}" class="text-center">                        
+                                        <td th:text="${as.id}" hidden></td>
+                                        <td th:text="${as.extension}"></td>
+                                        <td><a type="button" class="btn btn-danger" th:href="@{/extenDelete(id=${as.id})}" ><i class="fas fa-trash"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Footer -->
+
+        <footer class="page-footer font-small bg-light">
+
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-1">© 2019 Copyright:
+                BST
+            </div>
+            <!-- Copyright -->
+        </footer>
+
+
+
+        <script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+        <script th:src="@{/bootstrap/dist/css/bootstrap.min.css}" ></script>
+        <script th:src="@{/js/popper.min-1.14.7.js}" ></script>
+        <script th:src="@{/js/bootstrap.min.js}" ></script><!-- Menu Toggle Script -->
+        <!-- Menu Toggle Script -->
+        <script>
+            $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+            });
+        </script>
+
+
+        <script th:inline="javascript">
+            var show = [[${status
+            }
+            ]];
+            if (show == 'file successfully deleted') {
+            swal("Good job!", show, "success");
+            } else if (show == 'file failed to delete') {
+            swal("Oops!", show, "error");
+            }
+
+        </script>
+        <script th:inline="javascript">
+            var show = [[${status
+            }
+            ]];
+            if (show == 'file saved successfully') {
+            swal("Good job!", show, "success");
+            } else if (show == 'file failed to save') {
+            swal("Oops!", show, "error");
+            }
+        </script>
+    </body>
+</html>

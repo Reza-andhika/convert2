@@ -1,0 +1,234 @@
+<html>
+    <head>
+        <title>converter</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Font Awesome -->
+                <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}"/>
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{/bootstrap/dist/css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+        <!-- JQuery -->
+        <!--<script type="text/javascript" th:src="@{/jquery/js/jquery-1.8.3.min.js}"></script>-->
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" th:src="@{/bootstrap/dist/js/bootstrap.min.js}"></script>
+        <!--Data tables-->
+        <link th:href="@{/DataTables/datatables.min.css}" type="text/css" rel="stylesheet">
+        <link th:href="@{/DataTables/Responsive-2.2.3/css/responsive.dataTables.min.css}" type="text/css" rel="stylesheet">
+        <script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/popper.min-1.14.4}"></script>
+        <script type="text/javascript" th:src="@{/bootstrap/site/docs/4.3/assets/js/vendor/jquery-slim.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+        <script type="text/javascript" th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/popper.min-1.14.7.js}" ></script>
+        <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" ></script>
+        <link rel="stylesheet" th:href="@{/js/bootstrap.min.css}">
+
+        <style type="text/css"> 
+            body {
+                overflow-x: hidden;
+            }
+
+            #sidebar-wrapper {
+                min-height: 100vh;
+                margin-left: -15rem;
+                -webkit-transition: margin .25s ease-out;
+                -moz-transition: margin .25s ease-out;
+                -o-transition: margin .25s ease-out;
+                transition: margin .25s ease-out;
+            }
+
+            #sidebar-wrapper .sidebar-heading {
+                padding: 0.875rem 1.25rem;
+                font-size: 1.2rem;
+            }
+
+            #sidebar-wrapper .list-group {
+                width: 15rem;
+            }
+
+            #page-content-wrapper {
+                min-width: 100vw;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            @media (min-width: 768px) {
+                #sidebar-wrapper {
+                    margin-left: 0;
+                }
+
+                #page-content-wrapper {
+                    min-width: 0;
+                    width: 100%;
+                }
+
+                #wrapper.toggled #sidebar-wrapper {
+                    margin-left: -15rem;
+                }
+            }
+
+        </style>
+    </head>
+
+    <body class="fixed-sn" th:attr="onload='alertSave(\''+${status}+'\')'">
+
+        <div class="d-flex  " id="wrapper">
+            <!-- Sidebar -->
+            <div class="bg-light border-right" id="sidebar-wrapper">
+                <div class="sidebar-heading"><h3 class="font-weight-bold">Converter File</h3></div>
+                <div class="list-group list-group-flush">
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action bg-light" style="font-size: 20px"><i class="fas fa-file-export"></i> Convert</a>
+
+                    <a th:href="@{/clientPartner}" class="list-group-item list-group-item-action bg-light" style="font-size: 20px"><i class="fas fa-plus-square"></i> Add Client</a>
+                    <ul>
+                        <li>
+                            <a th:href="@{/parameter}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="fa fa-tag"></i> Delimiter</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/extension}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="far fa-file-alt"></i> Extension</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/type}"  class="list-group-item list-group-item-action bg-light" style="font-size: 15px"><i class="fa fa-users"></i> Instantion Type</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <nav class="navbar navbar-expand-lg  bg-dark border-bottom  navbar-dark bg-dark sticky-top">
+                    <button class="btn btn-light" id="menu-toggle"><i class="fas fa-bars"></i></button>
+
+                </nav>
+
+                <br>
+                <div class="container">
+                    <div class="card ">
+                        <div class="card-body">                          
+                            <br>
+                            <!-- fill content -->
+
+                            <!--open Form-->
+                            <form action="#" th:action="@{/convert}" method="GET" >
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="inputInstansi">Client</label><br>
+                                        <select id="chosen" class="form-control" name="client" style="width:350px; height:35px;" tabindex="1"/>
+                                        <option value="">select a client</option>
+                                        <option th:each="t : ${clients}" th:value="${t.id}" th:text="${t.name}"></option>           
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Convert</button>
+                                </div>
+                            </form>
+                            <!--Close Form Input-->
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+
+                <div class="container">
+                    <div class="card "> 
+                        <div class="card-body">   
+                            <!-- fill content -->
+                            <table border="1" id="myTable" class="table table-hover table-sm table-bordered" style="width:100%">
+                                <thead class="thead-dark">
+                                    <tr class="text-center">
+                                        <th>NO</th>
+                                        <th>History</th>
+                                        <!--<th>Date</th>-->
+                                        <th>Path</th>
+                                        <th>Action</th>
+                                        <th hidden>clientId</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="count, as : ${historys}" class="text-center">    
+                                        <td th:text="${as.index+1}"></td>
+                                        <td th:text="${count.newFilename}"></td>
+                                        <!--<td th:text="${count.date}"></td>-->
+                                        <td th:text="${count.newPath}"></td>
+                                        <td><button type="button" class="btn btn-info" th:detailClient="${count.client.id}" onclick="detail(this.getAttribute('detailClient'))" >detail</button></td>
+                                        <td th:text="${count.client.id}" hidden></td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+
+
+        </div>
+        <!-- Footer -->
+        <footer class="page-footer font-small bg-light">
+
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-">© 2019 Copyright:
+                BST
+            </div>
+            <!-- Copyright -->
+        </footer>
+
+
+
+        <script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+        <script th:src="@{/bootstrap/dist/css/bootstrap.min.css}" ></script>
+        <script th:src="@{/js/popper.min-1.14.7.js}" ></script>
+        <script th:src="@{/js/bootstrap.min.js}" ></script><!-- Menu Toggle Script -->
+        <!-- Menu Toggle Script -->
+        <script>
+            $("#menu-toggle").click(function (e) {
+
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+            $("#chosen").select2();
+            });
+
+            $(document).ready(function () {
+            $('.js-example-basic-multiple').select2();
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+            $('#myTable').DataTable();
+
+            });
+        </script>
+
+        <script>
+            function detail(id){
+            window.open(href="/detail?id="+id);
+            }
+        </script>
+
+
+        <script th:inline="javascript">
+            var show = [[${status}]];
+            if (show == 'file successfully converted') {
+            swal("Good job!", show, "success");
+            } else if (show == 'file has been converted') {
+            swal("Oops!", show, "error");
+            }
+        </script>
+    </body>
+
+
+</html>
+
